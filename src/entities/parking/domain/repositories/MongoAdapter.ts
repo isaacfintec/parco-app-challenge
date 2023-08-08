@@ -12,7 +12,7 @@ export default class MongoRepository {
     return parking.save();
   }
 
-  update<IDNum, IDStrg>(id: IDStrg, update: ValidUpdatedProps) {
+  update(id: unknown, update: ValidUpdatedProps) {
     const parkingUpdated = MongoSchema.findByIdAndUpdate(id, update, {
       new: true,
     });

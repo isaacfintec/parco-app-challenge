@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+
 const { ENV, NODE_ENV } = process.env;
 const ENVIRONMENT = ENV || NODE_ENV;
 
@@ -31,3 +33,33 @@ export const formatContact = (
     isValid,
   };
 };
+
+export const generateExpirationDate = (): number => {
+  const EXPIRATION_DAYS = 7;
+  const SECOND = 1000;
+  let newDate: any = new Date();
+  newDate = newDate.setDate(newDate.getDate() + EXPIRATION_DAYS);
+  const seconds = newDate.valueOf() / SECOND;
+  const expirationDate = Math.ceil(seconds);
+  return expirationDate;
+};
+
+export const generateJWT = (): string => {
+  const expirationDate = generateExpirationDate();
+  const { JWT_SECRET } = process.env;
+  return jwt.sign(
+    {
+      id: 'userId_example',
+      exp: expirationDate,
+    },
+    JWT_SECRET,
+  );
+};
+
+export function customValidationForSpots(value, { req }) {
+  const gt = value > 1500;
+  const lt = value < 50;
+  if (lt) throw new Error('The parking is very small');
+  else if (gt) throw new Error('The parking lot is very big');
+  return true;
+}

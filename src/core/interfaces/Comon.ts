@@ -1,9 +1,10 @@
 import { Types } from 'mongoose';
 
 export interface PaginateProps {
-  limit: number;
+  limit?: number;
   skip?: number;
   order?: string;
+  sort?: string;
 }
 
 export interface PaginateReply<T = any> {

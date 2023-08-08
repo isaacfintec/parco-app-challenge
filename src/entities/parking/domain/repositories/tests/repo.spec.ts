@@ -7,7 +7,7 @@ import { formatContact } from '../../../../../core/utils';
 import Repository from '../Parking';
 import { PARKING_TYPES } from '../../../application/constants';
 
-describe('@Notifications/domain/repositories', () => {
+describe('@Parking/domain/repositories', () => {
   const mongodb = new MongoDB();
   const sqldb = new SQLDB();
   const parkingProps = {
@@ -31,12 +31,12 @@ describe('@Notifications/domain/repositories', () => {
   });
 
   after(async () => {
-    await mongodb.close();
-    await sqldb.close();
+    // await mongodb.close();
+    // await sqldb.close();
   });
 
   it('@ParkingRepo:Save: should create a new parking in NoSQL', async () => {
-    const repository = new Repository();
+    const repository = new Repository('mongo');
     newNoSQLParking = await repository.save(parkingProps);
 
     expect(newNoSQLParking).to.have.property('_id');
@@ -68,7 +68,7 @@ describe('@Notifications/domain/repositories', () => {
   });
 
   it('@ParkingRepo:ERROR: should get validation error from NoSQL', async () => {
-    const repository = new Repository();
+    const repository = new Repository('mongo');
     try {
       // @ts-ignore
       const newParking = await repository.save(parkingErrorProps);
@@ -102,7 +102,7 @@ describe('@Notifications/domain/repositories', () => {
   });
 
   it('@ParkingRepo:Update: should update a parking by id in NoSQL', async () => {
-    const repository = new Repository();
+    const repository = new Repository('mongo');
     const target = newNoSQLParking._id.toString();
     const update = { spots: 300, contact: formatContact('1112345678').contact };
     const updatedParking = await repository.update(target, update);
@@ -132,7 +132,7 @@ describe('@Notifications/domain/repositories', () => {
   });
 
   it('@ParkingRepo:Paginate: should paginate parkings in NoSQL', async () => {
-    const repository = new Repository();
+    const repository = new Repository('mongo');
     const query = { limit: 10, skip: 1, order: 'name' };
     const parkings = await repository.paginate(query);
     expect(parkings).to.have.property('totalItems');

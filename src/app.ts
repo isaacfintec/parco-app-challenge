@@ -11,10 +11,7 @@ import appErrorshandler from './core/appErrorsHandler';
 import corsOptionsDelegate from './core/helpers/corsOptionsDelegate';
 import './core/db';
 
-/**
- * TODO: import routes
- */
-// import routes from './routes';
+import routes from './routes';
 
 const app = express();
 const logType = isProductionEnvironment() ? 'combined' : 'dev';
@@ -27,10 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(process.cwd(), 'public')));
 
-/**
- * TODO: add free routes an API routes
- */
-// app.use('/', routes);
+app.use('/', routes);
 
 app.use(appErrorshandler);
 

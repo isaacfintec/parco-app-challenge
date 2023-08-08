@@ -10,10 +10,7 @@ export default class SQLRepository {
     return parking.dataValues;
   }
 
-  async update<IDNum, IDStrg>(
-    id: IDNum,
-    update: ValidUpdatedProps,
-  ): Promise<SQLModel> {
+  async update(id: unknown, update: ValidUpdatedProps): Promise<SQLModel> {
     const query = { where: { id } };
     await SQLSchema.update(update, query);
     const parking = await SQLSchema.findOne(query);
@@ -21,7 +18,12 @@ export default class SQLRepository {
   }
 
   async paginate(query: PaginateProps): Promise<PaginateReply<ParkingModel>> {
-    const { skip, limit, order } = formatPaginateProps(query);
+    const { skip, limit, order, sort } = formatPaginateProps(query);
+
+    const orderType = {
+      asc: 'ASC',
+      desc: 'DESC',
+    };
 
     const parkings = await SQLSchema.findAll({
       offset: skip,
