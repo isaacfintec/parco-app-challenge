@@ -1,9 +1,6 @@
 import { Sequelize } from 'sequelize';
 
-/**
- * TODO: import parking model
- */
-// import Parking from '../entities/parking/domain/model/SQLSchema';
+import Parking from '../entities/parking/domain/models/SQLSchema';
 
 const sequelize = new Sequelize('sqlite::memory:', { logging: false });
 
@@ -13,11 +10,8 @@ class SQL {
       const db = await sequelize.authenticate();
       console.log(`SQLite successfully connected!`);
 
-      /**
-       * TODO: create parking table
-       */
-      // await Parking.sync();
-      // console.log(`Parking table was created`);
+      await Parking.sync();
+      console.log(`Parking table was created`);
 
       return db;
     } catch (error) {
