@@ -156,7 +156,7 @@ describe('@Parking/API', () => {
   it('@Paginate:GET: should get a pagination', async () => {
     const response = await chai
       .request(app)
-      .get(`/api/v1/parking/paginate?limit=5&order=spots&sort=asc&skip=1`)
+      .get(`/api/v1/parking/paginate?limit=5&order=spots&sort=desc&skip=1`)
       .set({ Authorization: `Token ${token}` });
 
     response.should.have.status(200);
@@ -165,5 +165,13 @@ describe('@Parking/API', () => {
     expect(body).to.have.property('data');
     expect(Array.isArray(body.data)).to.be.true;
     expect(body.data.length > 0).to.be.true;
+    let validSort = true;
+    body.data.reduce((acc, v) => {
+      const { spots: a } = acc;
+      const { spots: b } = v;
+      if (a < b) validSort = false;
+      return v;
+    });
+    expect(validSort).to.be.true;
   });
 });

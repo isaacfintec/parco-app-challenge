@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken';
+import { CheckInError } from '../helpers';
+import { CheckInFail, CheckInSuccess, ParkingType } from '../interfaces';
 
 const { ENV, NODE_ENV } = process.env;
 const ENVIRONMENT = ENV || NODE_ENV;
@@ -63,3 +65,24 @@ export function customValidationForSpots(value, { req }) {
   else if (gt) throw new Error('The parking lot is very big');
   return true;
 }
+
+export const isWeekend = () => {
+  const now = new Date();
+  return now.getDay() === 6 || now.getDay() === 0;
+};
+
+export const onCheckInFail = (message: string): CheckInFail => {
+  const status = 400;
+  return {
+    status,
+    error: new CheckInError(status, message),
+  };
+};
+
+export const onCheckInSuccess = (parkingType: ParkingType): CheckInSuccess => {
+  const status = 200;
+  return {
+    status,
+    parkingType,
+  };
+};

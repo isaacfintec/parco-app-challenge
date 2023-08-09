@@ -20,15 +20,16 @@ export default class SQLRepository {
   async paginate(query: PaginateProps): Promise<PaginateReply<ParkingModel>> {
     const { skip, limit, order, sort } = formatPaginateProps(query);
 
-    const orderType = {
+    const orderTypes = {
       asc: 'ASC',
       desc: 'DESC',
     };
+    const orderType = orderTypes[sort] || orderTypes.desc;
 
     const parkings = await SQLSchema.findAll({
       offset: skip,
       limit,
-      order: [[order, 'DESC']],
+      order: [[order, orderType]],
     });
 
     return {
