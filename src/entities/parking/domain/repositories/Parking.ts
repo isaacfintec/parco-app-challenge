@@ -36,9 +36,12 @@ export default class Repository {
     return parking;
   }
 
-  async update(id, update: ValidUpdatedProps): Promise<ParkingModel> {
+  async update(
+    id: IDNum | IDStrg,
+    update: ValidUpdatedProps,
+  ): Promise<ParkingModel> {
     const self = this;
-    const parking = await self.store.update<IDNum, IDStrg>(id, update);
+    const parking = await self.store.update(id, update);
     return parking;
   }
 

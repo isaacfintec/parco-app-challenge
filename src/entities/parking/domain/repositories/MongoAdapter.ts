@@ -12,7 +12,7 @@ export default class MongoRepository {
     return parking.save();
   }
 
-  update<IDNum, IDStrg>(id: IDStrg, update: ValidUpdatedProps) {
+  update(id: unknown, update: ValidUpdatedProps) {
     const parkingUpdated = MongoSchema.findByIdAndUpdate(id, update, {
       new: true,
     });
@@ -20,10 +20,15 @@ export default class MongoRepository {
   }
 
   async paginate(query: PaginateProps): Promise<PaginateReply<ParkingModel>> {
-    const { skip, limit, order } = formatPaginateProps(query);
+    const { skip, limit, order, sort } = formatPaginateProps(query);
+
+    const orderTypes = {
+      asc: 1,
+      desc: -1,
+    };
 
     const parkings = await MongoSchema.find()
-      .sort({ [order]: -1 })
+      .sort({ [order]: orderTypes[sort] || -1 })
       .skip(skip)
       .limit(limit)
       .exec();
