@@ -24,6 +24,11 @@ process.on('unhandledRejection', (e) => {
   process.exit(1);
 });
 
+process.on('SIGINT', (signal) => {
+  console.log(`Process exiting due to ${signal}`);
+  process.exit(0);
+});
+
 function normalizePort(val) {
   const numberPort = parseInt(val, 10);
   if (isNaN(numberPort)) return val;
