@@ -45,7 +45,13 @@ export const paginateV = () => {
       }),
     query('order').optional().isIn(['name', 'spots', 'parkingType']),
     query('skip').optional().isInt(),
-    query('sort').escape().trim().not().isEmpty().isIn(['asc', 'desc']),
+    query('sort')
+      .optional()
+      .escape()
+      .trim()
+      .not()
+      .isEmpty()
+      .isIn(['asc', 'desc']),
   ];
 
   return [params, middleware];

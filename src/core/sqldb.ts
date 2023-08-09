@@ -1,21 +1,32 @@
 import { Sequelize } from 'sequelize';
 
 import Parking from '../entities/parking/domain/models/SQLSchema';
+import { isTestEnvironment } from './utils';
 
-const sequelize = new Sequelize('sqlite::memory:', { logging: false });
+let sequelize: Sequelize;
+
+if (isTestEnvironment()) {
+  sequelize = new Sequelize('sqlite::memory:', { logging: false });
+  console.log(`sqlite memory connection`);
+} else {
+  sequelize = new Sequelize('postgres://postgres:pg123@localhost:5432/test', {
+    logging: false,
+  });
+  console.log(`postgres connection`);
+}
 
 class SQL {
   async connect() {
     try {
       const db = await sequelize.authenticate();
-      console.log(`SQLite successfully connected!`);
+      console.log(`SQL successfully connected!`);
 
       await Parking.sync();
       console.log(`Parking table was created`);
 
       return db;
     } catch (error) {
-      console.error('Unable to connect to SQLite database:', error);
+      console.error('Unable to connect to SQL database:', error);
     }
   }
 
