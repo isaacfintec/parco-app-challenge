@@ -9,7 +9,7 @@ import {
 } from '../../../core/interfaces/CheckIn';
 import { CheckInError } from '../../../core/helpers';
 
-describe.only('@CheckIn', () => {
+describe('@CheckIn', () => {
   let checkInUseCase: CheckInUseCase;
 
   before(async () => {
