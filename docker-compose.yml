@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: pg-docker
+    environment:
+      - POSTGRES_PASSWORD=pg123
+    ports:
+      - '5432:5432'
+    networks:
+      - 'parco-network'
+  app:
+    image: isaacfintech/parco-app-challenge
+    container_name: node
+    ports:
+      - '8000:8000'
+    depends_on:
+      - postgres
+    networks:
+      - 'parco-network'
+networks:
+  parco-network:
+    driver: bridge
+    name: parco-network
