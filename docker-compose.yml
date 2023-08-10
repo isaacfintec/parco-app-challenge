@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:latest
+    image: postgres
     container_name: pg-docker
     environment:
       - POSTGRES_PASSWORD=pg123
