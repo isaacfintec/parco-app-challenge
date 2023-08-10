@@ -1,6 +1,9 @@
 import { body, param, query } from 'express-validator';
 import middleware from '../../../../core/middlewares/expressValidation';
-import { customValidationForSpots } from '../../../../core/utils';
+import {
+  customValidationForSpots,
+  formatContact,
+} from '../../../../core/utils';
 import { ALL_PARKING_TYPES } from '../../application/constants';
 
 const MAX_LIMIT = 100;
@@ -10,7 +13,25 @@ export const createV = () => {
   const params = [
     body('name').isString().not().isEmpty().escape().trim(),
     body('spots').isInt().custom(customValidationForSpots),
-    body('contact').isString().not().isEmpty().escape().trim(),
+    body('contact')
+      .isString()
+      .not()
+      .isEmpty()
+      .escape()
+      .trim()
+      .custom((v) => {
+        const validation = formatContact(v);
+        if (!validation.isValid) {
+          throw new Error(
+            'Invalid contact number: Must be between 10 and 15 numbers',
+          );
+        }
+        return true;
+      })
+      .customSanitizer((v) => {
+        const { contact } = formatContact(v);
+        return contact;
+      }),
     body('parkingType').escape().trim().not().isEmpty().isIn(ALL_PARKING_TYPES),
   ];
 

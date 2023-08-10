@@ -13,4 +13,6 @@ const DBhandlers = {
 const DBhandle = DBhandlers[DB] || DBhandlers.default;
 const db = new DBhandle();
 
-if (!isTestEnvironment()) db.connect();
+if (!isTestEnvironment()) {
+  db.connect();
+}

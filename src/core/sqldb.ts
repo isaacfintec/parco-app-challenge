@@ -7,12 +7,10 @@ let sequelize: Sequelize;
 
 if (isTestEnvironment()) {
   sequelize = new Sequelize('sqlite::memory:', { logging: false });
-  console.log(`sqlite memory connection`);
 } else {
   sequelize = new Sequelize('postgres://postgres:pg123@localhost:5432/test', {
     logging: false,
   });
-  console.log(`postgres connection`);
 }
 
 class SQL {

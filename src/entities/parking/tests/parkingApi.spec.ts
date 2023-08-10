@@ -87,7 +87,6 @@ describe('@Parking/API', () => {
 
     response.should.have.status(200);
     const { body } = response;
-    expect(body).to.have.property('id');
     expect(body).to.have.property('name');
     expect(body).to.have.property('spots');
     expect(body).to.have.property('contact');
@@ -95,7 +94,7 @@ describe('@Parking/API', () => {
 
     expect(body.name).to.be.equal(parkingProps.name);
     expect(body.spots).to.be.equal(parkingProps.spots);
-    expect(body.contact).to.be.equal(parkingProps.contact);
+    expect(body.contact).to.be.equal(+parkingProps.contact);
     expect(body.parkingType).to.be.equal(parkingProps.parkingType);
     parking = body;
   });
@@ -119,19 +118,19 @@ describe('@Parking/API', () => {
   it('@Update:PUT: should update existing parking', async () => {
     const parkingProps = { spots: 777, contact: '9987654321' };
 
+    const id = parking?.id || parking?._id;
     const response = await chai
       .request(app)
-      .put(`/api/v1/parking/${parking.id}/update`)
+      .put(`/api/v1/parking/${id}/update`)
       .set({ Authorization: `Token ${token}` })
       .send(parkingProps);
 
     response.should.have.status(200);
     const { body } = response;
-    expect(body).to.have.property('id');
     expect(body).to.have.property('spots');
     expect(body).to.have.property('contact');
 
-    expect(body.id).to.be.equal(parking.id);
+    expect(body?.id || body?._id).to.be.equal(id);
     expect(body.spots).to.be.equal(parkingProps.spots);
     expect(body.contact).to.be.equal(+parkingProps.contact);
   });
@@ -144,9 +143,10 @@ describe('@Parking/API', () => {
       parkingType: 'private',
     };
 
+    const id = parking?.id || parking?._id;
     const response = await chai
       .request(app)
-      .put(`/api/v1/parking/${parking.id}/update`)
+      .put(`/api/v1/parking/${id}/update`)
       .set({ Authorization: `Token ${token}` })
       .send(parkingProps);
 

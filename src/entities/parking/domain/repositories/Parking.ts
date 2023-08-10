@@ -8,7 +8,6 @@ import MongoRepo from './MongoAdapter';
 import SQLRepo from './SQLAdapter';
 import Parking, { ValidUpdatedProps } from '../models/Interface';
 import { ParkingModel } from '../models/Model';
-import { IfUnknown } from 'mongoose';
 
 export default class Repository {
   store: SQLRepo | MongoRepo;
