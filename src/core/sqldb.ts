@@ -4,11 +4,12 @@ import Parking from '../entities/parking/domain/models/SQLSchema';
 import { isTestEnvironment } from './utils';
 
 let sequelize: Sequelize;
+const { DB_URL } = process.env;
 
 if (isTestEnvironment()) {
   sequelize = new Sequelize('sqlite::memory:', { logging: false });
 } else {
-  sequelize = new Sequelize('postgres://postgres:pg123@localhost:5432/test', {
+  sequelize = new Sequelize(DB_URL, {
     logging: false,
   });
 }
