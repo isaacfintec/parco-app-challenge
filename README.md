@@ -74,12 +74,26 @@ npm start
 Host:
 Open [http://localhost:8000](http://localhost:8000) with your browser.
 
+### Get a token
+
+```code
+{
+    url: 'http://localhost:8000/api/v1/user',
+    method: 'GET',
+    ContentType: 'application/json'
+    reply: {
+      "session": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXJJZF9leGFtcGxlIiwiZXhwIjoxNjkyMjkxMDMwLCJpYXQiOjE2OTE2ODYyMjl9.7R_e19yPZxY6H-46eNwYksFNYUnE_FuE3AZz4MJdGjI"
+    }
+}
+```
+
 ### Create a parking
 
 ```code
 {
     url: 'http://localhost:8000/api/v1/parking',
     method: 'POST',
+    Authorization: 'Token',
     ContentType: 'application/json'
     body: {
       "name": "plaza chida",
@@ -96,6 +110,7 @@ Open [http://localhost:8000](http://localhost:8000) with your browser.
 {
     url: 'http://localhost:8000/api/v1/parking/:id/update',
     method: 'PUT',
+    Authorization: 'Token',
     ContentType: 'application/json'
     body: {
       "spots": 500,
@@ -110,6 +125,7 @@ Open [http://localhost:8000](http://localhost:8000) with your browser.
 {
     url: 'http://localhost:8000/api/v1/parking/paginate?order=spots&sort=asc&limit=10&skip=0',
     method: 'GET',
+    Authorization: 'Token',
     ContentType: 'application/json'
 }
 ```
