@@ -127,5 +127,9 @@ Open [http://localhost:8000](http://localhost:8000) with your browser.
     method: 'GET',
     Authorization: 'Token',
     ContentType: 'application/json'
+    body: {
+      "totalItems": 1,
+      "data": [...]
+    }
 }
 ```
